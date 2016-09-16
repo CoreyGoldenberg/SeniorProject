@@ -1,4 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+<<<<<<< Updated upstream
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -149,6 +150,113 @@ var TabsPage = (function () {
 exports.TabsPage = TabsPage;
 
 },{"../about/about":2,"../contact/contact":3,"../home/home":4,"@angular/core":153}],6:[function(require,module,exports){
+=======
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require('@angular/core');
+var ionic_angular_1 = require('ionic-angular');
+var ionic_native_1 = require('ionic-native');
+var home_1 = require('./pages/home/home');
+var MyApp = (function () {
+    function MyApp(platform) {
+        this.platform = platform;
+        this.rootPage = home_1.HomePage;
+        platform.ready().then(function () {
+            // Okay, so the platform is ready and our plugins are available.
+            // Here you can do any higher level native things you might need.
+            ionic_native_1.StatusBar.styleDefault();
+            var tapEnabled = false;
+            var dragEnabled = false;
+            var toBack = true;
+            var rect = {
+                x: 0,
+                y: 0,
+                width: platform.width(),
+                height: platform.height()
+            };
+            alert(cordova);
+            //alert(cordova.plugins.camerapreview.startCamera(rect, "front", tapEnabled, dragEnabled,toBack));
+        });
+    }
+    MyApp = __decorate([
+        core_1.Component({
+            template: '<ion-nav [root]="rootPage"></ion-nav>'
+        }), 
+        __metadata('design:paramtypes', [ionic_angular_1.Platform])
+    ], MyApp);
+    return MyApp;
+}());
+exports.MyApp = MyApp;
+ionic_angular_1.ionicBootstrap(MyApp);
+},{"./pages/home/home":2,"@angular/core":150,"ionic-angular":464,"ionic-native":491}],2:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require('@angular/core');
+var ionic_angular_1 = require('ionic-angular');
+var ionic_native_1 = require('ionic-native');
+var ionic_angular_2 = require('ionic-angular');
+var HomePage = (function () {
+    function HomePage(navCtrl, platform) {
+        this.navCtrl = navCtrl;
+        this.platform = platform;
+    }
+    HomePage.prototype.refresh = function () {
+        window['location'].reload();
+    };
+    HomePage.prototype.takePic = function () {
+        var _this = this;
+        alert(ionic_native_1.Camera);
+        ionic_native_1.Camera.getPicture({
+            destinationType: ionic_native_1.Camera.DestinationType.DATA_URL,
+            targetWidth: 1000,
+            targetHeight: 1000
+        }).then(function (imageData) {
+            // imageData is a base64 encoded string
+            _this.base64Image = "data:image/jpeg;base64," + imageData;
+        }, function (err) {
+            console.log(err);
+        });
+    };
+    HomePage.prototype.preview = function () {
+        var tapEnabled = false;
+        var dragEnabled = false;
+        var toBack = true;
+        var rect = {
+            x: 0,
+            y: 0,
+            width: this.platform.width(),
+            height: this.platform.height()
+        };
+        alert(cordova);
+        cordova.plugins.camerapreview.startCamera(rect, "rear", tapEnabled, dragEnabled, toBack);
+    };
+    HomePage = __decorate([
+        core_1.Component({
+            templateUrl: 'build/pages/home/home.html'
+        }), 
+        __metadata('design:paramtypes', [ionic_angular_1.NavController, ionic_angular_2.Platform])
+    ], HomePage);
+    return HomePage;
+}());
+exports.HomePage = HomePage;
+},{"@angular/core":150,"ionic-angular":464,"ionic-native":491}],3:[function(require,module,exports){
+>>>>>>> Stashed changes
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
