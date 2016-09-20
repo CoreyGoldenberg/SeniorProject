@@ -1,25 +1,58 @@
 import { Component } from '@angular/core';
 import { Platform, ionicBootstrap } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
-import { TabsPage } from './pages/tabs/tabs';
-
+import { HomePage } from './pages/user/homePage';
+import { UserService } from './pages/user/user.service'
+import {Camera} from 'ionic-native'
+import { FIREBASE_PROVIDERS, 
+         defaultFirebase,  
+         AuthMethods, 
+         AuthProviders, 
+         firebaseAuthConfig,AngularFire, AngularFireAuth, FirebaseAuth} from 'angularfire2';
 
 @Component({
-  template: '<ion-nav [root]="rootPage"></ion-nav>'
+  template: '<ion-nav [root]="rootPage"></ion-nav>',
+  providers: [UserService]
 })
 export class MyApp {
 
   public rootPage: any;
 
   constructor(private platform: Platform) {
-    this.rootPage = TabsPage;
+    this.rootPage = HomePage;
+
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
+
+      let tapEnabled = false;
+      let dragEnabled = false;
+      let toBack = true;
+      let rect = {
+        x : 0,
+        y : 0,
+        width :  platform.width(),
+        height: platform.height()
+      };
+      //alert(cordova);
+      //alert(cordova.plugins.camerapreview.startCamera(rect, "front", tapEnabled, dragEnabled,toBack));
     });
   }
 }
 
-ionicBootstrap(MyApp);
+ionicBootstrap(MyApp,[
+    UserService,
+    FIREBASE_PROVIDERS,
+    firebaseAuthConfig({
+      provider: AuthProviders.Password,
+      method: AuthMethods.Password,
+    }),
+    defaultFirebase({
+    apiKey: "AIzaSyDjxzurguIw3nIhrANP_CRr81o9uwT_q2o",
+    authDomain: "seniorprojectadcg.firebaseapp.com",
+    databaseURL: "https://seniorprojectadcg.firebaseio.com",
+    storageBucket: "seniorprojectadcg.appspot.com",
+  })
+]);
