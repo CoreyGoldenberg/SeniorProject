@@ -210,14 +210,9 @@ public class CameraActivity extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        mCamera = Camera.open(defaultCameraId);
-
-        if (cameraParameters != null) {
-          mCamera.setParameters(cameraParameters);
-        }
-
-        cameraCurrentlyLocked = defaultCameraId;
+	
+	// Sets the Default Camera as the current one (initializes mCamera instance)
+       	setCurrentCamera(defaultCameraId);
         
         if(mPreview.mPreviewSize == null){
 		mPreview.setCamera(mCamera, cameraCurrentlyLocked);
@@ -244,6 +239,17 @@ public class CameraActivity extends Fragment {
                 }
             });
         }
+    }
+    
+    // Sets the current camera - allows to set cameraParameters from a single place (e.g. can be used to set AutoFocus and Autoflash)
+    private void setCurrentCamera(int cameraId){
+    	 mCamera = Camera.open(cameraId);
+
+        if (cameraParameters != null) {
+          mCamera.setParameters(cameraParameters);
+        }
+
+        cameraCurrentlyLocked = cameraId;
     }
 
     @Override
@@ -281,13 +287,11 @@ public class CameraActivity extends Fragment {
 
 		// Acquire the next camera and request Preview to reconfigure
 		// parameters.
-		mCamera = Camera.open((cameraCurrentlyLocked + 1) % numberOfCameras);
-
-		if (cameraParameters != null) {
-			mCamera.setParameters(cameraParameters);
-		}
-
-		cameraCurrentlyLocked = (cameraCurrentlyLocked + 1) % numberOfCameras;
+		int nextCameraId = (cameraCurrentlyLocked + 1) % numberOfCameras;
+		
+		// Set the next camera as the current one and apply the cameraParameters
+		setCurrentCamera(nextCameraId);
+		
 		mPreview.switchCamera(mCamera, cameraCurrentlyLocked);
 
 	    Log.d(TAG, "cameraCurrentlyLocked new: " + cameraCurrentlyLocked);
@@ -360,11 +364,19 @@ public class CameraActivity extends Fragment {
 									pictureView.layout(rect.left, rect.top, rect.right, rect.bottom);
 
 									Bitmap finalPic = null;
+									// If we are going to rotate the picture, width and height are reversed
+									boolean swapAspects = mPreview.getDisplayOrientation() % 180 != 0;
+									double rotatedWidth = swapAspects ? pic.getHeight() : pic.getWidth();
+									double rotatedHeight = swapAspects ? pic.getWidth() : pic.getHeight();
+									boolean shouldScaleWidth = maxWidth > 0 && rotatedWidth > maxWidth;
+									boolean shouldScaleHeight = maxHeight > 0 && rotatedHeight > maxHeight;
+
 									//scale final picture
-									if(maxWidth > 0 && maxHeight > 0){
-										final double scaleHeight = maxWidth/(double)pic.getHeight();
-										final double scaleWidth = maxHeight/(double)pic.getWidth();
-										final double scale  = scaleHeight < scaleWidth ? scaleWidth : scaleHeight;
+									if(shouldScaleWidth || shouldScaleHeight){
+										double scaleHeight = shouldScaleHeight ? maxHeight / (double)rotatedHeight : 1;
+										double scaleWidth = shouldScaleWidth ? maxWidth / (double)rotatedWidth : 1;
+
+										double scale = scaleHeight < scaleWidth ? scaleHeight : scaleWidth;
 										finalPic = Bitmap.createScaledBitmap(pic, (int)(pic.getWidth()*scale), (int)(pic.getHeight()*scale), false);
 									}
 									else{

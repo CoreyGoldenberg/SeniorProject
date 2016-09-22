@@ -2,14 +2,15 @@ import { Component } from '@angular/core';
 import { Platform, ionicBootstrap } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 import { HomePage } from './pages/user/homePage';
-import { UserService } from './pages/user/user.service'
+import { UserService } from './pages/user/user.service';
 import {Camera} from 'ionic-native'
-import { FIREBASE_PROVIDERS, 
-         defaultFirebase,  
-         AuthMethods, 
-         AuthProviders, 
-         firebaseAuthConfig,AngularFire, AngularFireAuth, FirebaseAuth} from 'angularfire2';
+import { FIREBASE_PROVIDERS,
+         defaultFirebase,
+         AuthMethods,
+         AuthProviders,
+        firebaseAuthConfig,AngularFire, AngularFireAuth, FirebaseAuth} from 'angularfire2';
 
+declare var cordova;
 @Component({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
   providers: [UserService]
@@ -20,7 +21,6 @@ export class MyApp {
 
   constructor(private platform: Platform) {
     this.rootPage = HomePage;
-
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -36,8 +36,7 @@ export class MyApp {
         width :  platform.width(),
         height: platform.height()
       };
-      //alert(cordova);
-      //alert(cordova.plugins.camerapreview.startCamera(rect, "front", tapEnabled, dragEnabled,toBack));
+      cordova.plugins.camerapreview.startCamera(rect, "rear", tapEnabled, dragEnabled,toBack);
     });
   }
 }

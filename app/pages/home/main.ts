@@ -3,17 +3,13 @@ import { NavController } from 'ionic-angular';
 import {Camera} from 'ionic-native';
 import { Platform} from 'ionic-angular';
 
-declare var cordova;
 @Component({
   templateUrl: 'build/pages/home/main.html'
 })
-export class MainPage {  
+export class MainPage {
   public base64Image: string;
   constructor(public navCtrl: NavController,private platform:Platform) {
 
-  }
-  refresh() {
-    window['location'].reload();
   }
   takePic(){
   	alert(Camera);
@@ -28,17 +24,8 @@ export class MainPage {
         console.log(err);
     });
   }
-  preview(){
-  	  let tapEnabled = false;
-      let dragEnabled = false;
-      let toBack = true;
-      let rect = {
-        x : 0,
-        y : 0,
-        width : this.platform.width(),
-        height: this.platform.height()
-      };
-      alert(cordova);
-      cordova.plugins.camerapreview.startCamera(rect, "rear", tapEnabled, dragEnabled,toBack);
+  test() {
+    alert("Reloading");
+    window['location'].reload();
   }
 }
