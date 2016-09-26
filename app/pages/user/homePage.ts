@@ -12,6 +12,7 @@ declare var cordova;
 export class HomePage {
 
   constructor(private nav:NavController, private platform:Platform) {
+
   }
   navLogin(){
   	this.nav.push(LoginPage)
@@ -23,19 +24,20 @@ export class HomePage {
   	this.nav.setRoot(MainPage);
   }
   preview(){
-  	  // let tapEnabled = false;
-      // let dragEnabled = false;
-      // let toBack = true;
-      // let rect = {
-      //   x : 0,
-      //   y : 0,
-      //   width : this.platform.width(),
-      //   height: this.platform.height()
-      // };
-      console.log("SHOWING");
-      cordova.plugins.camerapreview.show();
-      console.log("Reloading");
-      window['location'].reload();
-      console.log("done");
+      localStorage.setItem('hasBeenHome', "true");
+
+      let tapEnabled = false;
+      let dragEnabled = false;
+      let toBack = true;
+      let rect = {
+        x : 0,
+        y : 0,
+        width :  this.platform.width(),
+        height: this.platform.height()
+      };
+      cordova.plugins.camerapreview.startCamera(rect, "rear", tapEnabled, dragEnabled,toBack);
+
+      location.reload();
+
   }
 }

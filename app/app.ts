@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Platform, ionicBootstrap } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 import { HomePage } from './pages/user/homePage';
+import { MainPage } from './pages/home/main';
 import { UserService } from './pages/user/user.service';
 import {Camera} from 'ionic-native'
 import { FIREBASE_PROVIDERS,
@@ -19,24 +20,21 @@ export class MyApp {
 
   public rootPage: any;
 
-  constructor(private platform: Platform) {
-    this.rootPage = HomePage;
+  constructor(private platform: Platform, private userService: UserService) {
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
 
-      let tapEnabled = false;
-      let dragEnabled = false;
-      let toBack = true;
-      let rect = {
-        x : 0,
-        y : 0,
-        width :  platform.width(),
-        height: platform.height()
-      };
-      cordova.plugins.camerapreview.startCamera(rect, "rear", tapEnabled, dragEnabled,toBack);
+      if(localStorage.getItem("hasBeenHome") == "true") {
+        console.log("Tried to change rootPage to mainPage");
+        this.rootPage = MainPage;
+        localStorage.setItem("hasBeenHome", "false");
+      }
+      else {
+        this.rootPage = HomePage;
+      }
     });
   }
 }
