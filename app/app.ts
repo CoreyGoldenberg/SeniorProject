@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { Platform, ionicBootstrap } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 import { HomePage } from './pages/user/homePage';
-import { MainPage } from './pages/home/main';
+import { CameraViewPage } from './pages/main/cameraView';
 import { UserService } from './pages/user/user.service';
+import { MainService } from './pages/main/main.service';
 import {Camera} from 'ionic-native'
 import { FIREBASE_PROVIDERS,
          defaultFirebase,
@@ -14,7 +15,7 @@ import { FIREBASE_PROVIDERS,
 declare var cordova;
 @Component({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
-  providers: [UserService]
+  providers: [UserService,MainService]
 })
 export class MyApp {
 
@@ -29,7 +30,7 @@ export class MyApp {
 
       if(localStorage.getItem("hasBeenHome") == "true") {
         console.log("Tried to change rootPage to mainPage");
-        this.rootPage = MainPage;
+        this.rootPage = CameraViewPage;
         localStorage.setItem("hasBeenHome", "false");
       }
       else {
@@ -41,6 +42,7 @@ export class MyApp {
 
 ionicBootstrap(MyApp,[
     UserService,
+    MainService,
     FIREBASE_PROVIDERS,
     firebaseAuthConfig({
       provider: AuthProviders.Password,

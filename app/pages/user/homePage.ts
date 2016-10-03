@@ -3,7 +3,7 @@ import { NavController } from 'ionic-angular';
 import { Platform} from 'ionic-angular';
 import { LoginPage} from './login.component';
 import { SignUpPage } from './signUp.component';
-import { MainPage } from '../home/main';
+import { CameraViewPage } from '../main/cameraView';
 
 declare var cordova;
 @Component({
@@ -21,7 +21,7 @@ export class HomePage {
   	this.nav.push(SignUpPage)
   }
   navMain(){
-  	this.nav.setRoot(MainPage);
+  	this.nav.setRoot(CameraViewPage);
   }
   preview(){
       localStorage.setItem('hasBeenHome', "true");
