@@ -5,6 +5,7 @@ import {AngularFire, FirebaseListObservable, FirebaseObjectObservable,FirebaseAu
 @Injectable()
 export class MainService implements OnInit{
     public cameraViewPicture: string;
+    public cameraPicture: string;
     constructor(private af:AngularFire){
     }
     ngOnInit(){

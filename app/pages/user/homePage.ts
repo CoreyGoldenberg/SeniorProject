@@ -4,6 +4,7 @@ import { Platform} from 'ionic-angular';
 import { LoginPage} from './login.component';
 import { SignUpPage } from './signUp.component';
 import { CameraViewPage } from '../main/cameraView';
+import { Canvas } from '../main/canvas';
 
 declare var cordova;
 @Component({
@@ -22,6 +23,9 @@ export class HomePage {
   }
   navMain(){
   	this.nav.setRoot(CameraViewPage);
+  }
+  navCanvas() {
+    this.nav.setRoot(Canvas);
   }
   preview(){
       localStorage.setItem('hasBeenHome', "true");

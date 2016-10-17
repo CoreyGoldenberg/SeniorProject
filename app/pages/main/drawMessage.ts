@@ -12,8 +12,13 @@ export class DrawMessagePage {
   public backgroundImage: string;
   public canvas;
   constructor(public navCtrl: NavController,private platform:Platform,private domSanitizer:DomSanitizationService,private mainService:MainService) {
-    this.backgroundImage=mainService.cameraViewPicture;
-    this.canvas = <HTMLCanvasElement>document.getElementById('canvas');
+    if(this.platform.is('android')) {
+      this.backgroundImage = mainService.cameraViewPicture;
+    }
+    else {
+      console.log("got the picture in the draw message page");
+      this.backgroundImage = mainService.cameraPicture;
+    }
   }
   getImage(){
     return this.domSanitizer.bypassSecurityTrustStyle('url(' + this.backgroundImage + ')');
