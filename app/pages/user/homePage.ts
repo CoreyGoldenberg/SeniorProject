@@ -5,15 +5,28 @@ import { LoginPage} from './login.component';
 import { SignUpPage } from './signUp.component';
 import { CameraViewPage } from '../main/cameraView';
 import { Canvas } from '../main/canvas';
+import { DomSanitizationService } from '@angular/platform-browser';
+import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2';
 
 declare var cordova;
+declare var firebase: any;
 @Component({
   templateUrl: 'build/pages/user/homePage.html'
 })
 export class HomePage {
-
-  constructor(private nav:NavController, private platform:Platform) {
-
+  testPic:any;
+  public auth:any;
+  public images:FirebaseListObservable<any>;
+  constructor(private af:AngularFire,private nav:NavController, private platform:Platform, private domSanitizer:DomSanitizationService) {
+    this.testPic="";
+    this.auth = firebase.auth();
+    this.images = this.af.database.list('images/');
+    this.af.database.list('images/').subscribe((pics)=>{
+      pics.forEach((pic)=>{
+    console.log(pic.downloadURL);
+      })
+    });
+ //console.log(this.auth);
   }
   navLogin(){
   	this.nav.push(LoginPage)
